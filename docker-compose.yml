@@ -1,0 +1,24 @@
+services:
+  lojamanoelapi:
+    container_name: lojamanoel-api-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=lojamanoel-db,1433;Database=LojaDoManoelDB_Docker;User ID=sa;Password=SenhaF0rte!!123;Encrypt=false;TrustServerCertificate=true;
+    depends_on:
+      - lojamanoel-db
+
+  lojamanoel-db:
+    container_name: lojamanoel-sqlserver-container
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "SenhaF0rte!!123"
+      MSSQL_PID: "Developer"
